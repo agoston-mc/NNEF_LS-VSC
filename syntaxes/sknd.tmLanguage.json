@@ -1,0 +1,232 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "SKND",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#blocks"
+		},
+		{
+			"include": "#declarations"
+		},
+		{
+			"include": "#imports"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#stdlib_functions"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#operators"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line.number-sign.sknd",
+					"begin": "#",
+					"end": "$",
+					"patterns": [
+						{
+							"name": "storage.type.class.jsdoc.sknd",
+							"match": "(@(?:title|section|item|text))\\b"
+						}
+					]
+				}
+			]
+		},
+
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.sknd",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.sknd",
+							"match": "\\\\."
+						},
+						{
+							"name": "constant.other.placeholder.sknd",
+							"match": "\\{[a-zA-Z_][a-zA-Z0-9_]*\\}"
+						}
+					]
+				},
+				{
+					"name": "string.quoted.single.sknd",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"name": "constant.character.escape.sknd",
+							"match": "\\\\."
+						}
+					]
+				}
+			]
+		},
+
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.sknd",
+					"match": "\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b"
+				}
+			]
+		},
+
+		"blocks": {
+			"patterns": [
+				{
+					"name": "entity.name.tag.block.sknd",
+					"match": "@(dtype|attrib|input|output|constant|variable|using|assert|lower|compose|update|quantize)\\b"
+				}
+			]
+		},
+
+		"declarations": {
+			"patterns": [
+				{
+					"match": "\\b(?:(public)\\s+)?(operator|graph)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+					"captures": {
+						"1": { "name": "storage.modifier.sknd" },
+						"2": { "name": "storage.type.function.sknd" },
+						"3": { "name": "entity.name.function.sknd" }
+					}
+				}
+			]
+		},
+
+		"imports": {
+			"patterns": [
+				{
+					"begin": "\\b(import)\\b",
+					"beginCaptures": {
+						"1": { "name": "keyword.control.import.sknd" }
+					},
+					"end": ";",
+					"patterns": [
+						{
+							"name": "support.class.builtin.module.sknd",
+							"match": "\\b(algo|image|layer|layout|linalg|math|misc|nn|quant|rand)\\b"
+						},
+						{
+							"name": "entity.name.namespace.sknd",
+							"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+						}
+					]
+				}
+			]
+		},
+
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.sknd",
+					"match": "\\b(import|as|is|in|if|then|else|switch|case|do|for|while|with|yield)\\b"
+				},
+				{
+					"name": "storage.modifier.sknd",
+					"match": "\\b(public|optional|unroll|static|dynamic)\\b"
+				}
+			]
+		},
+
+		"types": {
+			"patterns": [
+				{
+					"name": "storage.type.sknd",
+					"match": "\\b(type|arith|num|int|real|bool|str)\\b"
+				},
+				{
+					"name": "support.type.sknd",
+					"match": "\\b(f16|f32|f64|i8|i16|i32|i64|u8|u16|u32|u64)\\b"
+				}
+			]
+		},
+
+		"constants": {
+			"patterns": [
+				{
+					"name": "constant.language.sknd",
+					"match": "\\b(true|false|inf|pi)\\b"
+				}
+			]
+		},
+
+		"stdlib_functions": {
+			"patterns": [
+				{
+					"match": "\\b(algo|image|layer|layout|linalg|math|misc|nn|quant|rand)\\.([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*[{(])",
+					"captures": {
+						"1": { "name": "support.class.builtin.module.sknd" },
+						"2": { "name": "support.function.builtin.sknd" }
+					}
+				},
+				{
+					"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\.([a-zA-Z_][a-zA-Z0-9_]*)(?=\\s*[{(])",
+					"captures": {
+						"1": { "name": "entity.name.namespace.sknd" },
+						"2": { "name": "entity.name.function.call.sknd" }
+					}
+				},
+				{
+					"name": "support.function.builtin.sknd",
+					"match": "\\b(top_k|nonmax_suppress|nearest_downsample|nearest_upsample|area_downsample|linear_upsample|_nearest_resize|_linear_resize|_cubic_resize|resize|rescale|max_roi_pool|avg_roi_pool|_nearest_grid_sample|_linear_grid_sample|_cubic_grid_sample|grid_sample|linear|conv|deconv|batch_norm|tensor|uniform|range|shape|cast|reshape|flatten|unflatten|squeeze|unsqueeze|concat|split|stack|unstack|tile|broadcast|slice|pad|transpose|space_to_batch|batch_to_space|space_to_depth|depth_to_space|shuffle|nonzero|gather|gather_nd|scatter|scatter_nd|dot|matvec|matmul|outer|iden|neg|rcp|sqr|sqrt|rsqr|rsqrt|exp|log|log2|sin|cos|tan|sinh|cosh|tanh|asin|acos|atan|asinh|acosh|atanh|abs|sign|not|floor|ceil|round|add|sub|mul|div|mod|pow|min|max|lt|gt|le|ge|eq|ne|and|or|xor|select|sum_n|prod_n|min_n|max_n|argmin_n|argmax_n|any_n|all_n|axpb|axpby|clamp|min_reduce|max_reduce|sum_reduce|prod_reduce|mean_reduce|lp_reduce|any_reduce|all_reduce|argmin|argmin_nd|argmax|argmax_nd|moments|cumsum|mesh_grid|max_pool|sum_pool|avg_pool|rms_pool|lp_pool|relu|prelu|thresholded_relu|elu|selu|gelu|silu|sigmoid|hard_sigmoid|softplus|erf|mean_variance_norm|local_response_norm|l1_norm|l2_norm|softmax|lstm_step|_lstm_loop|_jagged_lstm_loops|lstm|zero_point_linear_quantize|min_max_linear_quantize|normal|bernoulli)(?=\\s*[{(])"
+				},
+				{
+					"name": "entity.name.function.call.sknd",
+					"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*[{(])"
+				}
+			]
+		},
+
+		"variables": {
+			"patterns": [
+				{
+					"name": "variable.parameter.sknd",
+					"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*:(?!=))"
+				},
+				{
+					"name": "variable.parameter.sknd",
+					"match": "(?<=[{(,]\\s*)\\b[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*=(?![=>]))"
+				},
+				{
+					"name": "variable.other.sknd",
+					"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+				}
+			]
+		},
+
+		"operators": {
+			"patterns": [
+				{
+					"name": "keyword.operator.symbol.sknd",
+					"match": "(\\.\\.\\.|\\.\\.|<\\?=|>\\?=|<\\?|>\\?|\\*\\*|&&|\\|\\||=>|<-|->|<=|>=|==|!=|\\+=|\\*=|&=|\\|=|:=|<>|\\?\\?|[+\\-*/\\\\%^!<>?=~|:])"
+				}
+			]
+		}
+	},
+	"scopeName": "source.sknd"
+}

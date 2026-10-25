@@ -1,0 +1,44 @@
+{
+  "name": "nnef-language-support",
+  "displayName": "nnef-language-support",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "nnef",
+      "aliases": ["NNEF", "nnef"],
+      "extensions": [".nnef", ".quant"],
+      "configuration": "./nnef-configuration.json"
+    },
+    {
+      "id": "sknd",
+      "aliases": ["SKND", "sknd"],
+      "extensions": [".sknd"],
+      "configuration": "./sknd-configuration.json"
+    }],
+    "grammars": [{
+      "language": "nnef",
+      "scopeName": "source.nnef",
+      "path": "./syntaxes/nnef.tmLanguage.json"
+    },
+    {
+      "language": "sknd",
+      "scopeName": "source.sknd",
+      "path": "./syntaxes/sknd.tmLanguage.json"
+    }],
+    "snippets": [{
+      "language": "nnef",
+      "path": "./snippets/nnef.code-snippets"
+    },
+    {
+      "language": "sknd",
+      "path": "./snippets/sknd.code-snippets"
+    }]
+  }
+}

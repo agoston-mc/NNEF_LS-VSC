@@ -1,0 +1,169 @@
+{
+	"SkriptND Import Module": {
+		"prefix": "import",
+		"body": [
+			"import ${1|nn,layout,math,linalg,image,quant,algo,layer,misc,rand|};",
+			"$0"
+		],
+		"description": "Import a SkriptND module"
+	},
+	"SkriptND Graph": {
+		"prefix": "graph",
+		"body": [
+			"graph ${1:Network} {",
+			"\t@attrib {",
+			"\t\t${2:batch: int = 1;}",
+			"\t}",
+			"\t@input {",
+			"\t\t${3:input: real[batch, 3, 224, 224];}",
+			"\t}",
+			"\t@output {",
+			"\t\t${4:output: real[batch, 1000];}",
+			"\t}",
+			"\t@variable {",
+			"\t\t$5",
+			"\t}",
+			"\t@compose {",
+			"\t\t$0",
+			"\t}",
+			"}"
+		],
+		"description": "Define a SkriptND computation graph"
+	},
+	"SkriptND Operator (Lowered)": {
+		"prefix": "operator",
+		"body": [
+			"operator ${1:name} {",
+			"\t@attrib {",
+			"\t\t$2",
+			"\t}",
+			"\t@input {",
+			"\t\t${3:input: real[s..];}",
+			"\t}",
+			"\t@output {",
+			"\t\t${4:output: real[s..];}",
+			"\t}",
+			"\t@using {",
+			"\t\t$5",
+			"\t}",
+			"\t@assert {",
+			"\t\t$6",
+			"\t}",
+			"\t@lower {",
+			"\t\t$0",
+			"\t}",
+			"}"
+		],
+		"description": "Define a SkriptND operator with a @lower index expression block"
+	},
+	"SkriptND Operator (Composed)": {
+		"prefix": "operator_compose",
+		"body": [
+			"operator ${1:name} {",
+			"\t@attrib {",
+			"\t\t$2",
+			"\t}",
+			"\t@input {",
+			"\t\t${3:input: real[s..];}",
+			"\t}",
+			"\t@output {",
+			"\t\t${4:output: real[s..];}",
+			"\t}",
+			"\t@compose {",
+			"\t\t$0",
+			"\t}",
+			"}"
+		],
+		"description": "Define a SkriptND operator composed of higher-level operators"
+	},
+	"@attrib Block": {
+		"prefix": ["@attrib", "attrib"],
+		"body": [
+			"@attrib {",
+			"\t${1:name}: ${2|int,real,bool,str|} = ${3:1};$0",
+			"}"
+		],
+		"description": "SkriptND @attrib section block"
+	},
+	"@input Block": {
+		"prefix": ["@input", "input"],
+		"body": [
+			"@input {",
+			"\t${1:input}: ${2:real}[${3:s..}];$0",
+			"}"
+		],
+		"description": "SkriptND @input section block"
+	},
+	"@output Block": {
+		"prefix": ["@output", "output"],
+		"body": [
+			"@output {",
+			"\t${1:output}: ${2:real}[${3:s..}];$0",
+			"}"
+		],
+		"description": "SkriptND @output section block"
+	},
+	"@variable Block": {
+		"prefix": ["@variable", "variable"],
+		"body": [
+			"@variable {",
+			"\t${1:weights}: ${2:real}[${3:c, n}];$0",
+			"}"
+		],
+		"description": "SkriptND @variable section block"
+	},
+	"@constant Block": {
+		"prefix": ["@constant", "constant"],
+		"body": [
+			"@constant {",
+			"\t${1:const}: ${2:real}[${3:1}] = ${4:0.0};$0",
+			"}"
+		],
+		"description": "SkriptND @constant section block"
+	},
+	"@using Block": {
+		"prefix": ["@using", "using"],
+		"body": [
+			"@using {",
+			"\t$0",
+			"}"
+		],
+		"description": "SkriptND @using local definitions block"
+	},
+	"@assert Block": {
+		"prefix": ["@assert", "assert"],
+		"body": [
+			"@assert {",
+			"\t${1:condition}: \"${2:assertion message}\";$0",
+			"}"
+		],
+		"description": "SkriptND @assert validation block"
+	},
+	"@lower Block": {
+		"prefix": ["@lower", "lower"],
+		"body": [
+			"@lower {",
+			"\t$0",
+			"}"
+		],
+		"description": "SkriptND @lower tensor comprehension block"
+	},
+	"@compose Block": {
+		"prefix": ["@compose", "compose"],
+		"body": [
+			"@compose {",
+			"\t$0",
+			"}"
+		],
+		"description": "SkriptND @compose subgraph block"
+	},
+	"@dtype Block": {
+		"prefix": ["@dtype", "dtype"],
+		"body": [
+			"@dtype {",
+			"\t${1:T}: ${2|type,arith,num,int,real,bool,str|};$0",
+			"}"
+		],
+		"description": "SkriptND @dtype generic type parameter block"
+	}
+}

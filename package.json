@@ -1,8 +1,13 @@
 {
   "name": "nnef-language-support",
   "displayName": "nnef-language-support",
-  "description": "",
+  "publisher": "agoston-mc",
+  "description": "Syntax highlighting and snippets for NNEF and SkriptND",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agoston-mc/NNEF_LS-VSC.git"
+  },
   "engines": {
     "vscode": "^1.103.0"
   },
